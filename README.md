@@ -32,6 +32,7 @@ An example of a commit command and its resulting commit message with the hook ac
 
 
 ```bash
-git commit -m "Add README with setup instructions for prepare-commit-msg hook" ```
+git commit -m "Add README with setup instructions for prepare-commit-msg hook"
+```
 
 JIRA-ID Add README with setup instructions for prepare-commit-msg hook
