@@ -30,9 +30,14 @@ The `prepare-commit-msg` hook is structured to:
 
 An example of a commit command and its resulting commit message with the hook active:
 
-
+```bash
+git checkout -b  "feature/DEMO-1234-this-is-demo"
+```
 ```bash
 git commit -m "Add README with setup instructions for prepare-commit-msg hook"
 ```
 
-JIRA-ID Add README with setup instructions for prepare-commit-msg hook
+Commit will look like as below 
+```bash
+"DEMO-1234 Add README with setup instructions for prepare-commit-msg hook"
+```
