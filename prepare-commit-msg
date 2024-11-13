@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# The path to the file that holds the commit log message.
+COMMIT_MSG_FILE=$1
+# The type of commit message (message, template, merge, squash, or commit).
+COMMIT_SOURCE=$2
+# The SHA1 hash, when a commit is being amended (not used).
+SHA1=$3
+
+# A regex to match your JIRA issue IDs, considering optional prefixes and various case usage.
+JIRA_ISSUE_REGEX='[a-zA-Z]+-[0-9]+'
+
+# Extract the current branch name using Git symbolic-ref.
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+echo "Debug: The current branch is $BRANCH_NAME"
+
+# Use grep to find the JIRA issue within the branch name using the regex and make it case-insensitive.
+JIRA_ISSUE=$(echo $BRANCH_NAME | grep -oE "$JIRA_ISSUE_REGEX" | head -n 1)
+
+# Check if we have found a JIRA issue in the branch name.
+if [ ! -z "$JIRA_ISSUE" ]; then
+  # Convert JIRA issue to uppercase if needed.
+  JIRA_ISSUE=$(echo $JIRA_ISSUE | tr '[:lower:]' '[:upper:]')
+  
+  # Prepend the JIRA issue ID to the commit message.
+  # Ensure not to duplicate the JIRA issue ID if it's already present in the commit message.
+  if ! grep -q "$JIRA_ISSUE" "$COMMIT_MSG_FILE"; then
+    echo "$JIRA_ISSUE $(cat $COMMIT_MSG_FILE)" > "$COMMIT_MSG_FILE"
+  fi
+fi
